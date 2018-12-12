@@ -1,16 +1,17 @@
+// jshint esversion: 6
 var rgbChannels = {
     redChannel: 0,
     greenChannel: 0,
     blueChannel: 0,
-    outputRgbColor: ''
-}
+    outputRgbColor: ""
+};
 
 var hexChannels = {
     redChannel: 0,
     greenChannel: 0,
     blueChannel: 0,
-    outputHexColor: ''
-}
+    outputHexColor: ""
+};
 
 class RgbColorGenerator {
     print(what) {
@@ -18,16 +19,20 @@ class RgbColorGenerator {
     }
 
     printChannels(channel, channel2, channel3) {
-        this.print(channel + '\n' + channel2 + '\n' + channel3);
+        this.print(channel + "\n" + channel2 + "\n" + channel3);
     }
 
-    generateRandomNumber(from = 0, to = 254) {
-        let generatedValue = Math.floor(Math.random(from) * to)
+    generateRandomNumber(from, to) {
+      if(from == undefined || to == undefined) {
+        from =0; to = 255;
+      }
+      
+      let generatedValue = Math.floor(Math.random(from) * to);
         return generatedValue;
     }
 
     setChannel() {
-        return this.generateRandomNumber(0, 254);
+        return this.generateRandomNumber(0, 255);
     }
 
     setRgbColorsChannels() {
@@ -41,9 +46,10 @@ class RgbColorGenerator {
                 rgbChannels.greenChannel,
                 rgbChannels.blueChannel
         );
-        this.print('after - ' + rgbChannels.redChannel);
-        this.print('after - ' + rgbChannels.greenChannel);
-        this.print('after - ' + rgbChannels.blueChannel);
+
+        //this.print("after - " + rgbChannels.redChannel);
+        //this.print("after - " + rgbChannels.greenChannel);
+        //this.print("after - " + rgbChannels.blueChannel);
     }
 
     setHexadecimalColorsChannels() {
@@ -70,22 +76,20 @@ class RgbColorGenerator {
     }
 
     joinRgbChannels(channel1, channel2, channel3) {
-        return rgbChannels.outputRgbColor =
-            "rgb("
-            + channel1.toString()
-            + ", "
-            + channel2.toString()
-            + ", "
-            + channel3.toString()
-            + ")";
+        rgbChannels.outputRgbColor =
+            "rgb(" +
+            channel1.toString() +
+            ", " +
+            channel2.toString() +
+            ", " +
+            ")";
+      return rgbChannels.outrputRgbColor;
     }
 
     joinHexChannels(channel1, channel2, channel3) {
-        return hexChannels.outputHexColor =
-            "#"
-            + channel1
-            + channel2
-            + channel3
+        hexChannels.outputHexColor =
+            "#" + channel1 + channel2 + channel3;
+        return hexChannels.outputHexColor;
     }
 
     convertDecimalToHex(number) {
@@ -93,10 +97,10 @@ class RgbColorGenerator {
     }
 
     populateColorOnCards() {
-        let cards = document.getElementsByClassName('card');
+        let cards = document.getElementsByClassName("card");
+        let i = 0;        
 
-        console.log(cards.length)
-        for(let i = 0; i < cards.length; i++) {
+        for(i = 0; i < cards.length; i++) {
             this.setAllChannels();
             cards[i].style.backgroundColor = hexChannels.outputHexColor;
             cards[i].innerHTML = hexChannels.outputHexColor;
@@ -115,12 +119,12 @@ function generateButtonClick() {
     generateRgbColor.run();
 }
 
-window.addEventListener('load', function() {
+window.addEventListener("load", function() {
     var generator = new RgbColorGenerator();
-    let generateButton = document.getElementById('generateButton');
+    let generateButton = document.getElementById("generateButton");
     generator.run();
 
-    generateButton.addEventListener('click', function() {
+    generateButton.addEventListener("click", function() {
         generator.run();
     });
 });
